@@ -1,0 +1,1598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>API Mastery: The Complete Integration Playbook</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Serif+Display:ital@0;1&family=IBM+Plex+Mono:wght@400;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0a0a0f;
+    --paper: #f5f2eb;
+    --accent: #e8401c;
+    --accent2: #1c4de8;
+    --gold: #c9952a;
+    --mono-bg: #0f1117;
+    --mono-text: #a8ff78;
+    --grid: rgba(10,10,15,0.06);
+    --border: rgba(10,10,15,0.15);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Outfit', sans-serif;
+    background-color: var(--paper);
+    color: var(--ink);
+    font-size: 17px;
+    line-height: 1.7;
+    background-image:
+      linear-gradient(var(--grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 80px 40px 60px;
+    position: relative;
+    overflow: hidden;
+    border-bottom: 4px solid var(--accent);
+  }
+  .hero::before {
+    content: 'API';
+    position: absolute;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(180px, 30vw, 400px);
+    color: rgba(255,255,255,0.03);
+    top: -40px; right: -20px;
+    line-height: 1;
+    pointer-events: none;
+    letter-spacing: -10px;
+  }
+  .hero-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    display: inline-block;
+    padding: 4px 12px;
+    margin-bottom: 24px;
+  }
+  .hero h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(48px, 8vw, 110px);
+    line-height: 0.9;
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+  }
+  .hero h1 span { color: var(--accent); }
+  .hero-sub {
+    font-family: 'DM Serif Display', serif;
+    font-style: italic;
+    font-size: clamp(18px, 2.5vw, 26px);
+    color: rgba(245,242,235,0.7);
+    max-width: 640px;
+    margin-bottom: 40px;
+  }
+  .hero-meta {
+    display: flex;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+  .hero-meta-item {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: rgba(245,242,235,0.5);
+  }
+  .hero-meta-item strong {
+    display: block;
+    color: var(--paper);
+    font-size: 14px;
+    margin-bottom: 2px;
+  }
+
+  /* ── TOC ── */
+  .toc-wrapper {
+    max-width: 1100px;
+    margin: 60px auto 0;
+    padding: 0 40px;
+  }
+  .toc {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 36px 40px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px 40px;
+  }
+  @media(max-width:640px){ .toc { grid-template-columns: 1fr; } }
+  .toc-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 3px;
+    color: var(--accent);
+    grid-column: 1/-1;
+    margin-bottom: 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(245,242,235,0.1);
+  }
+  .toc a {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: rgba(245,242,235,0.6);
+    text-decoration: none;
+    padding: 5px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: color .2s;
+    border-bottom: 1px solid rgba(245,242,235,0.05);
+  }
+  .toc a:hover { color: var(--accent); }
+  .toc a::before {
+    content: attr(data-num);
+    color: var(--accent);
+    font-size: 10px;
+    min-width: 24px;
+  }
+
+  /* ── LAYOUT ── */
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+
+  section {
+    padding: 80px 0 40px;
+  }
+
+  /* ── SECTION HEADERS ── */
+  .section-header {
+    display: flex;
+    align-items: flex-end;
+    gap: 20px;
+    margin-bottom: 48px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid var(--ink);
+  }
+  .section-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 80px;
+    line-height: 1;
+    color: rgba(10,10,15,0.08);
+    flex-shrink: 0;
+  }
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(30px, 5vw, 52px);
+    line-height: 1;
+    letter-spacing: 1px;
+  }
+  .section-title span { color: var(--accent); }
+
+  /* ── PROSE ── */
+  p { margin-bottom: 18px; }
+  strong { font-weight: 600; }
+
+  /* ── CALLOUT BOXES ── */
+  .callout {
+    border-left: 4px solid var(--accent);
+    background: rgba(232,64,28,0.06);
+    padding: 20px 24px;
+    margin: 28px 0;
+    font-size: 15px;
+  }
+  .callout.blue {
+    border-color: var(--accent2);
+    background: rgba(28,77,232,0.06);
+  }
+  .callout.gold {
+    border-color: var(--gold);
+    background: rgba(201,149,42,0.06);
+  }
+  .callout-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--accent);
+  }
+  .callout.blue .callout-label { color: var(--accent2); }
+  .callout.gold .callout-label { color: var(--gold); }
+
+  /* ── CODE BLOCKS ── */
+  pre {
+    background: var(--mono-bg);
+    color: var(--mono-text);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    padding: 28px;
+    margin: 24px 0;
+    overflow-x: auto;
+    position: relative;
+    line-height: 1.7;
+    border-left: 3px solid var(--mono-text);
+  }
+  pre .lang-tag {
+    position: absolute;
+    top: 10px; right: 16px;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: rgba(168,255,120,0.4);
+    text-transform: uppercase;
+  }
+  .kw { color: #ff79c6; }
+  .str { color: #f1fa8c; }
+  .cmt { color: #6272a4; font-style: italic; }
+  .fn { color: #8be9fd; }
+  .num { color: #bd93f9; }
+  .var { color: var(--mono-text); }
+
+  /* ── TABLES ── */
+  .table-wrap { overflow-x: auto; margin: 28px 0; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+  thead tr {
+    background: var(--ink);
+    color: var(--paper);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  th { padding: 14px 18px; text-align: left; }
+  td { padding: 13px 18px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  tr:nth-child(even) td { background: rgba(10,10,15,0.03); }
+  tr:hover td { background: rgba(232,64,28,0.04); }
+  .badge {
+    display: inline-block;
+    padding: 2px 8px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border-radius: 2px;
+  }
+  .badge-free { background: #d4edda; color: #155724; }
+  .badge-freemium { background: #fff3cd; color: #856404; }
+  .badge-paid { background: #f8d7da; color: #721c24; }
+
+  /* ── CARDS ── */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+    margin: 32px 0;
+  }
+  .card {
+    border: 1.5px solid var(--border);
+    padding: 28px;
+    background: #fff;
+    position: relative;
+    transition: transform .2s, box-shadow .2s;
+  }
+  .card:hover {
+    transform: translateY(-3px);
+    box-shadow: 6px 6px 0 var(--ink);
+  }
+  .card-icon {
+    font-size: 32px;
+    margin-bottom: 12px;
+  }
+  .card h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+  }
+  .card p { font-size: 14px; color: rgba(10,10,15,0.7); margin: 0; }
+  .card-tag {
+    position: absolute;
+    top: 16px; right: 16px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--accent);
+    text-transform: uppercase;
+  }
+
+  /* ── STEP LIST ── */
+  .step-list { list-style: none; counter-reset: steps; }
+  .step-list li {
+    counter-increment: steps;
+    display: flex;
+    gap: 20px;
+    padding: 24px 0;
+    border-bottom: 1px solid var(--border);
+    align-items: flex-start;
+  }
+  .step-list li::before {
+    content: counter(steps, decimal-leading-zero);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 36px;
+    color: var(--accent);
+    line-height: 1;
+    flex-shrink: 0;
+    min-width: 48px;
+  }
+  .step-content h4 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 20px;
+    margin-bottom: 6px;
+  }
+  .step-content p { font-size: 14px; color: rgba(10,10,15,0.7); margin: 0; }
+
+  /* ── USE CASE BLOCKS ── */
+  .usecase {
+    border: 1.5px solid var(--border);
+    margin: 24px 0;
+    background: #fff;
+    overflow: hidden;
+  }
+  .usecase-header {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    letter-spacing: 1px;
+  }
+  .usecase-header .icon { font-size: 24px; }
+  .usecase-body { padding: 24px; }
+  .usecase-body h4 { font-size: 14px; font-weight: 600; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 1px; color: var(--accent); }
+  .usecase-body p { font-size: 14px; margin-bottom: 16px; }
+
+  /* ── PLATFORM INTEGRATIONS ── */
+  .platform-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 24px;
+  }
+  .platform-card {
+    border: 1.5px solid var(--border);
+    background: #fff;
+    overflow: hidden;
+  }
+  .platform-header {
+    padding: 18px 24px;
+    border-bottom: 2px solid var(--accent);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .platform-logo {
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    background: var(--paper);
+    border: 1.5px solid var(--border);
+    flex-shrink: 0;
+  }
+  .platform-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    letter-spacing: 1px;
+  }
+  .platform-type {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: rgba(10,10,15,0.5);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+  .platform-body { padding: 20px 24px; font-size: 14px; }
+  .platform-body ul { list-style: none; padding: 0; }
+  .platform-body li {
+    padding: 6px 0;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: flex-start; gap: 10px;
+  }
+  .platform-body li::before { content: '→'; color: var(--accent); flex-shrink: 0; font-weight: 700; }
+
+  /* ── CHECKLIST ── */
+  .checklist { list-style: none; }
+  .checklist li {
+    padding: 10px 0;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    border-bottom: 1px solid var(--border);
+    font-size: 15px;
+  }
+  .checklist li::before {
+    content: '☐';
+    font-size: 18px;
+    color: var(--accent2);
+    flex-shrink: 0;
+    line-height: 1.4;
+  }
+
+  /* ── FREE APIs TABLE ── */
+  .free-api-section { background: var(--ink); color: var(--paper); padding: 60px 40px; margin: 60px 0; }
+  .free-api-section h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(36px, 5vw, 60px);
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+  }
+  .free-api-section h2 span { color: var(--accent); }
+  .free-api-section p { color: rgba(245,242,235,0.6); margin-bottom: 32px; font-size: 15px; }
+  .free-api-section table { background: transparent; }
+  .free-api-section thead tr { background: rgba(255,255,255,0.06); }
+  .free-api-section th { color: var(--paper); }
+  .free-api-section td { color: rgba(245,242,235,0.8); border-color: rgba(255,255,255,0.08); }
+  .free-api-section tr:nth-child(even) td { background: rgba(255,255,255,0.03); }
+  .free-api-section tr:hover td { background: rgba(232,64,28,0.1); }
+
+  /* ── DIVIDER ── */
+  .divider {
+    border: none;
+    border-top: 2px solid var(--ink);
+    margin: 0;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 40px;
+    text-align: center;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: rgba(245,242,235,0.4);
+    letter-spacing: 1px;
+  }
+  footer strong { color: var(--paper); }
+
+  /* ── VALIDATION BLOCK ── */
+  .validation-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin: 28px 0;
+  }
+  .validation-item {
+    border: 1.5px solid var(--border);
+    padding: 20px;
+    background: #fff;
+    text-align: center;
+  }
+  .validation-item .v-icon { font-size: 28px; margin-bottom: 8px; }
+  .validation-item h4 { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+  .validation-item p { font-size: 12px; color: rgba(10,10,15,0.6); margin: 0; }
+
+  /* ── HIGHLIGHT ── */
+  mark {
+    background: rgba(232,64,28,0.15);
+    color: var(--ink);
+    padding: 1px 4px;
+  }
+
+  @media (max-width: 768px) {
+    .hero { padding: 50px 24px 40px; }
+    .container, .toc-wrapper { padding: 0 24px; }
+    .section-num { font-size: 50px; }
+    .free-api-section { padding: 40px 24px; }
+    .platform-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════ HERO ══════════ -->
+<div class="hero">
+  <div class="hero-label">Complete Integration Playbook · 2025 Edition</div>
+  <h1>THE <span>API</span><br>MASTERY<br>GUIDE</h1>
+  <p class="hero-sub">From first key to full automation — everything you need to implement, launch, and validate API integrations across any platform.</p>
+  <div class="hero-meta">
+    <div class="hero-meta-item"><strong>Reading Time</strong>~25 minutes</div>
+    <div class="hero-meta-item"><strong>Level</strong>Beginner → Advanced</div>
+    <div class="hero-meta-item"><strong>Topics</strong>12 Sections</div>
+    <div class="hero-meta-item"><strong>Platforms Covered</strong>Amazon, Google, Meta + 20 more</div>
+  </div>
+</div>
+
+<!-- ══════════ TOC ══════════ -->
+<div class="toc-wrapper">
+  <div class="toc">
+    <div class="toc-title">TABLE OF CONTENTS</div>
+    <a href="#s1" data-num="01">What is an API? Core Concepts</a>
+    <a href="#s7" data-num="07">Use Cases & Real Examples</a>
+    <a href="#s2" data-num="02">API Keys — How They Work</a>
+    <a href="#s8" data-num="08">Free API Services Directory</a>
+    <a href="#s3" data-num="03">Authentication Methods</a>
+    <a href="#s9" data-num="09">Platform Integrations Deep Dive</a>
+    <a href="#s4" data-num="04">Implement: Step-by-Step</a>
+    <a href="#s10" data-num="10">Browser & Website Integration</a>
+    <a href="#s5" data-num="05">Launch & Deploy</a>
+    <a href="#s11" data-num="11">Security & Best Practices</a>
+    <a href="#s6" data-num="06">Validate & Monitor</a>
+    <a href="#s12" data-num="12">Automation Workflows</a>
+  </div>
+</div>
+
+<!-- ══════════ SECTION 1 ══════════ -->
+<section id="s1">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-num">01</div>
+      <h2 class="section-title">WHAT IS AN <span>API</span>?<br>CORE CONCEPTS EXPLAINED</h2>
+    </div>
+
+    <p>An <strong>API (Application Programming Interface)</strong> is a set of rules and protocols that allows two software applications to communicate with each other. Think of it as a waiter in a restaurant — you (the client) make a request, the waiter (API) carries it to the kitchen (server), and returns with exactly what you asked for.</p>
+
+    <div class="callout">
+      <div class="callout-label">💡 Mental Model</div>
+      When you check the weather on your phone, your app doesn't store that data itself — it calls a weather API, receives real-time data, and displays it. Every tap, every feed refresh, every payment is an API call happening behind the scenes.
+    </div>
+
+    <h3 style="font-family:'DM Serif Display',serif;font-size:26px;margin:32px 0 16px">API Anatomy: The Four Building Blocks</h3>
+
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-icon">🔗</div>
+        <div class="card-tag">ENDPOINT</div>
+        <h3>Endpoint URL</h3>
+        <p>The specific URL where an API resource lives. Like a postal address for data. e.g., <code>https://api.example.com/v1/products</code></p>
+      </div>
+      <div class="card">
+        <div class="card-icon">📬</div>
+        <div class="card-tag">METHOD</div>
+        <h3>HTTP Methods</h3>
+        <p><strong>GET</strong> (read), <strong>POST</strong> (create), <strong>PUT/PATCH</strong> (update), <strong>DELETE</strong> (remove). These define the action being performed.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">📦</div>
+        <div class="card-tag">PAYLOAD</div>
+        <h3>Request Body</h3>
+        <p>Data you send with the request (usually JSON). Contains parameters, filters, or data to be created/updated.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">📥</div>
+        <div class="card-tag">RESPONSE</div>
+        <h3>API Response</h3>
+        <p>The data returned by the server — typically JSON or XML — along with an HTTP status code (200 OK, 404 Not Found, etc.).</p>
+      </div>
+    </div>
+
+    <h3 style="font-family:'DM Serif Display',serif;font-size:26px;margin:32px 0 16px">Types of APIs You'll Encounter</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Type</th><th>Description</th><th>Common Use</th><th>Example</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>REST API</strong></td><td>Most popular. Uses HTTP. Stateless.</td><td>Web services, mobile apps</td><td>Twitter, Stripe, Shopify</td></tr>
+          <tr><td><strong>GraphQL</strong></td><td>Query exactly what you need. Flexible.</td><td>Complex data graphs</td><td>GitHub API v4, Shopify Storefront</td></tr>
+          <tr><td><strong>SOAP</strong></td><td>XML-based. Strict. Enterprise-grade.</td><td>Banking, legacy systems</td><td>PayPal older APIs</td></tr>
+          <tr><td><strong>Webhook</strong></td><td>Push-based. Server notifies you on events.</td><td>Real-time triggers</td><td>Stripe payments, GitHub push</td></tr>
+          <tr><td><strong>gRPC</strong></td><td>Binary protocol. Ultra-fast.</td><td>Microservices</td><td>Internal Google services</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ══════════ SECTION 2 ══════════ -->
+<section id="s2">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-num">02</div>
+      <h2 class="section-title">API <span>KEYS</span> —<br>HOW THEY WORK</h2>
+    </div>
+
+    <p>An <strong>API key</strong> is a unique identifier — essentially a long password — that authenticates your application when making API calls. Without it, the server won't know who you are or whether you're allowed to access its resources.</p>
+
+    <div class="callout blue">
+      <div class="callout-label">🔑 API Key vs. Other Auth</div>
+      API keys identify the <em>application</em> (not the user). OAuth tokens identify the <em>user</em>. JWTs carry encoded user data. Knowing which to use depends on what the API requires.
+    </div>
+
+    <h3 style="font-family:'DM Serif Display',serif;font-size:24px;margin:28px 0 16px">What an API Key Looks Like</h3>
+    <pre><span class="cmt"># Typical API Key formats</span>
+<span class="cmt"># Google: </span>
+<span class="str">AIzaSyD1kJ3mP9xQr7vNwBcFhGtLiO2uYeA4sXZ</span>
+
+<span class="cmt"># OpenAI:</span>
+<span class="str">sk-proj-abc123XYZ...48characterslongstring...</span>
+
+<span class="cmt"># Stripe:</span>
+<span class="str">sk_live_51Abc...orsk_test_51Abc...</span>
+
+<span class="cmt"># Amazon (Access Key ID + Secret):</span>
+<span class="str">AKIAIOSFODNN7EXAMPLE</span>  <span class="cmt"># Key ID</span>
+<span class="str">wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY</span>  <span class="cmt"># Secret</span>
+<span class="lang-tag">FORMATS</span></pre>
+
+    <h3 style="font-family:'DM Serif Display',serif;font-size:24px;margin:28px 0 16px">How to Pass an API Key</h3>
+    <pre><span class="cmt"># Method 1: Request Header (Most Secure)</span>
+<span class="fn">fetch</span>(<span class="str">'https://api.example.com/data'</span>, {
+  headers: {
+    <span class="str">'Authorization'</span>: <span class="str">`Bearer YOUR_API_KEY`</span>,
+    <span class="str">'Content-Type'</span>: <span class="str">'application/json'</span>
+  }
+})
+
+<span class="cmt"># Method 2: Query Parameter (Avoid for sensitive keys)</span>
+<span class="str">https://api.example.com/data?api_key=YOUR_KEY</span>
+
+<span class="cmt"># Method 3: Environment Variable (Best Practice)</span>
+<span class="kw">const</span> <span class="var">apiKey</span> = process.<span class="fn">env</span>.<span class="var">API_KEY</span>; <span class="cmt">// Never hardcode!</span>
+<span class="lang-tag">JS</span></pre>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ══════════ SECTION 3 ══════════ -->
+<section id="s3">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-num">03</div>
+      <h2 class="section-title">AUTHENTICATION<br><span>METHODS</span></h2>
+    </div>
+
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-icon">🗝️</div>
+        <h3>API Key Auth</h3>
+        <p>Simplest method. Pass a key in headers or params. Best for server-to-server calls where the key can be safely stored.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🔐</div>
+        <h3>OAuth 2.0</h3>
+        <p>User-delegated authorization. User logs in, grants permissions, your app gets a token. Used by Google, Facebook, Twitter.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🎫</div>
+        <h3>JWT (JSON Web Token)</h3>
+        <p>Self-contained token encoding user info + expiry. Server validates signature without database lookup. Fast and stateless.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">👤</div>
+        <h3>Basic Auth</h3>
+        <p>Username + password encoded in Base64. Simple but must always be used over HTTPS. Common in older APIs.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">✍️</div>
+        <h3>HMAC Signing</h3>
+        <p>Sign requests with a secret key using cryptographic hash. Amazon SP-API, AWS use this. Tamper-proof.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🔗</div>
+        <h3>mTLS</h3>
+        <p>Mutual TLS — both client and server present certificates. Enterprise-grade security for financial/healthcare APIs.</p>
+      </div>
+    </div>
+
+    <h3 style="font-family:'DM Serif Display',serif;font-size:24px;margin:28px 0 16px">OAuth 2.0 Flow — Step by Step</h3>
+    <pre><span class="cmt">Step 1: Redirect user to authorization URL</span>
+<span class="str">https://accounts.google.com/o/oauth2/auth?</span>
+  <span class="var">client_id</span>=<span class="str">YOUR_CLIENT_ID</span>&
+  <span class="var">redirect_uri</span>=<span class="str">https://yourapp.com/callback</span>&
+  <span class="var">scope</span>=<span class="str">email profile</span>&
+  <span class="var">response_type</span>=<span class="str">code</span>
+
+<span class="cmt">Step 2: User authorizes → you receive auth code</span>
+<span class="cmt">Step 3: Exchange code for access token</span>
+<span class="kw">const</span> response = <span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">'https://oauth2.googleapis.com/token'</span>, {
+  method: <span class="str">'POST'</span>,
+  body: <span class="var">JSON</span>.<span class="fn">stringify</span>({
+    code: <span class="var">authCode</span>,
+    client_id: <span class="var">CLIENT_ID</span>,
+    client_secret: <span class="var">CLIENT_SECRET</span>,
+    redirect_uri: <span class="str">'https://yourapp.com/callback'</span>,
+    grant_type: <span class="str">'authorization_code'</span>
+  })
+});
+<span class="kw">const</span> { access_token, refresh_token } = <span class="kw">await</span> response.<span class="fn">json</span>();
+<span class="lang-tag">JS</span></pre>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ══════════ SECTION 4 ══════════ -->
+<section id="s4">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-num">04</div>
+      <h2 class="section-title">IMPLEMENT:<br><span>STEP-BY-STEP</span></h2>
+    </div>
+
+    <p>Here's the exact workflow for integrating any API from scratch — applicable whether you're connecting Google Ads, a payment gateway, or a social media platform.</p>
+
+    <ol class="step-list">
+      <li>
+        <div class="step-content">
+          <h4>Read the Official Documentation First</h4>
+          <p>Before writing a single line of code, spend 20 minutes reading the API docs. Understand the base URL, available endpoints, rate limits, authentication method, and response format. Look for the "Quick Start" or "Getting Started" section.</p>
+        </div>
+      </li>
+      <li>
+        <div class="step-content">
+          <h4>Create Developer Account & Get API Credentials</h4>
+          <p>Sign up at the developer portal. Generate an API key, Client ID/Secret, or OAuth credentials. Store them immediately in a password manager or secrets vault — you often can't view the secret again.</p>
+        </div>
+      </li>
+      <li>
+        <div class="step-content">
+          <h4>Set Up Environment Variables</h4>
+          <p>Never hardcode credentials in source code. Use <code>.env</code> files locally and environment secrets in production (AWS Secrets Manager, Vercel env vars, GitHub Actions secrets).</p>
+        </div>
+      </li>
+      <li>
+        <div class="step-content">
+          <h4>Test in Sandbox/Test Mode First</h4>
+          <p>Most APIs offer sandbox environments with test credentials. Use these exclusively during development. Stripe has test card numbers; Google Ads has test accounts; Amazon SP-API has a sandbox mode.</p>
+        </div>
+      </li>
+      <li>
+        <div class="step-content">
+          <h4>Make Your First API Call</h4>
+          <p>Use Postman, Insomnia, or curl to manually test the endpoint before coding. Verify you get the expected response shape. This eliminates auth issues before they pollute your code.</p>
+        </div>
+      </li>
+      <li>
+        <div class="step-content">
+          <h4>Implement with Error Handling</h4>
+          <p>Write your integration with proper try/catch blocks, retry logic for rate limit errors (429), and meaningful error messages. Never let a raw API error reach the end user.</p>
+        </div>
+      </li>
+      <li>
+        <div class="step-content">
+          <h4>Add Logging & Monitoring</h4>
+          <p>Log every API request and response (minus sensitive data). Set up alerts for error spikes. Track latency. This saves hours of debugging in production.</p>
+        </div>
+      </li>
+      <li>
+        <div class="step-content">
+          <h4>Switch to Production & Monitor Closely</h4>
+          <p>Swap sandbox credentials for production ones. Deploy. Monitor closely for the first 24 hours. Set up rate limit dashboards. Have a rollback plan ready.</p>
+        </div>
+      </li>
+    </ol>
+
+    <h3 style="font-family:'DM Serif Display',serif;font-size:24px;margin:40px 0 16px">Your First Complete API Integration (Python)</h3>
+    <pre><span class="kw">import</span> requests
+<span class="kw">import</span> os
+<span class="kw">from</span> dotenv <span class="kw">import</span> load_dotenv
+<span class="kw">import</span> time
+
+<span class="fn">load_dotenv</span>()  <span class="cmt"># Load .env file</span>
+
+<span class="kw">class</span> <span class="fn">APIClient</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self):
+        self.api_key = os.<span class="fn">getenv</span>(<span class="str">"API_KEY"</span>)
+        self.base_url = <span class="str">"https://api.example.com/v1"</span>
+        self.session = requests.<span class="fn">Session</span>()
+        self.session.headers.<span class="fn">update</span>({
+            <span class="str">"Authorization"</span>: <span class="fn">f</span><span class="str">"Bearer {self.api_key}"</span>,
+            <span class="str">"Content-Type"</span>: <span class="str">"application/json"</span>
+        })
+
+    <span class="kw">def</span> <span class="fn">get</span>(self, endpoint, params=<span class="kw">None</span>, retries=<span class="num">3</span>):
+        url = <span class="fn">f</span><span class="str">"{self.base_url}/{endpoint}"</span>
+        <span class="kw">for</span> attempt <span class="kw">in</span> <span class="fn">range</span>(retries):
+            <span class="kw">try</span>:
+                response = self.session.<span class="fn">get</span>(url, params=params, timeout=<span class="num">10</span>)
+                <span class="kw">if</span> response.status_code == <span class="num">429</span>:  <span class="cmt"># Rate limited</span>
+                    <span class="fn">time.sleep</span>(<span class="num">2</span> ** attempt)   <span class="cmt"># Exponential backoff</span>
+                    <span class="kw">continue</span>
+                response.<span class="fn">raise_for_status</span>()
+                <span class="kw">return</span> response.<span class="fn">json</span>()
+            <span class="kw">except</span> requests.exceptions.<span class="fn">RequestException</span> <span class="kw">as</span> e:
+                <span class="kw">print</span>(<span class="fn">f</span><span class="str">"Attempt {attempt+1} failed: {e}"</span>)
+                <span class="kw">if</span> attempt == retries - <span class="num">1</span>:
+                    <span class="kw">raise</span>
+
+<span class="cmt"># Usage</span>
+client = <span class="fn">APIClient</span>()
+data = client.<span class="fn">get</span>(<span class="str">"products"</span>, params={<span class="str">"page"</span>: <span class="num">1</span>, <span class="str">"limit"</span>: <span class="num">50</span>})
+<span class="kw">print</span>(data)
+<span class="lang-tag">PYTHON</span></pre>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ══════════ SECTION 5 ══════════ -->
+<section id="s5">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-num">05</div>
+      <h2 class="section-title">LAUNCH &<br><span>DEPLOY</span></h2>
+    </div>
+
+    <p>Moving from sandbox to production is where most integrations break. Follow this launch checklist meticulously.</p>
+
+    <div class="callout gold">
+      <div class="callout-label">⚠️ Pre-Launch Warning</div>
+      Production API keys have real financial and operational consequences. A bug in your ad spend API can drain budgets in minutes. A pricing API error can cause incorrect charges. Always have a kill switch (feature flag) to disable the integration instantly.
+    </div>
+
+    <h3 style="font-family:'DM Serif Display',serif;font-size:24px;margin:28px 0 16px">Launch Checklist</h3>
+    <ul class="checklist">
+      <li>Environment variables set in production (not hardcoded)</li>
+      <li>Sandbox credentials replaced with production credentials</li>
+      <li>Rate limit handling implemented (exponential backoff)</li>
+      <li>Error logging connected to monitoring tool (Datadog, Sentry, CloudWatch)</li>
+      <li>API response caching implemented where applicable</li>
+      <li>Webhook endpoints secured with signature verification</li>
+      <li>HTTPS enforced on all endpoints receiving/sending API calls</li>
+      <li>Token refresh logic tested and working</li>
+      <li>Pagination handled (don't assume 1 page = all data)</li>
+      <li>Feature flag in place to disable integration without redeployment</li>
+      <li>Load testing completed at 2× expected peak volume</li>
+      <li>Runbook documented for on-call team</li>
+    </ul>
+
+    <h3 style="font-family:'DM Serif Display',serif;font-size:24px;margin:40px 0 16px">Deployment Environments</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Environment</th><th>API Mode</th><th>Credentials</th><th>Purpose</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Local Dev</strong></td><td>Sandbox/Mock</td><td>.env file</td><td>Rapid iteration, debugging</td></tr>
+          <tr><td><strong>Staging</strong></td><td>Sandbox</td><td>CI/CD secrets</td><td>QA testing, UAT</td></tr>
+          <tr><td><strong>Production</strong></td><td>Live</td><td>Secrets vault</td><td>Real users, real data</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ══════════ SECTION 6 ══════════ -->
+<section id="s6">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-num">06</div>
+      <h2 class="section-title">VALIDATE &<br><span>MONITOR</span></h2>
+    </div>
+
+    <p>An integration is only as good as your ability to detect when it breaks. Set up validation from day one.</p>
+
+    <div class="validation-grid">
+      <div class="validation-item">
+        <div class="v-icon">📊</div>
+        <h4>Response Validation</h4>
+        <p>Verify response schema matches expected structure on every call</p>
+      </div>
+      <div class="validation-item">
+        <div class="v-icon">⏱️</div>
+        <h4>Latency Tracking</h4>
+        <p>Alert if p95 latency exceeds SLA. Track per-endpoint, not just overall.</p>
+      </div>
+      <div class="validation-item">
+        <div class="v-icon">🚨</div>
+        <h4>Error Rate Alerts</h4>
+        <p>Alert when 5xx rate exceeds 1% or 4xx rate spikes unexpectedly</p>
+      </div>
+      <div class="validation-item">
+        <div class="v-icon">🔄</div>
+        <h4>Synthetic Monitoring</h4>
+        <p>Run test API calls every 5 min to validate availability proactively</p>
+      </div>
+      <div class="validation-item">
+        <div class="v-icon">📈</div>
+        <h4>Rate Limit Headroom</h4>
+        <p>Track % of rate limit used. Alert at 70%, circuit-break at 90%.</p>
+      </div>
+      <div class="validation-item">
+        <div class="v-icon">💰</div>
+        <h4>Cost Monitoring</h4>
+        <p>For paid APIs, set billing alerts at 50% and 90% of budget</p>
+      </div>
+    </div>
+
+    <h3 style="font-family:'DM Serif Display',serif;font-size:24px;margin:28px 0 16px">HTTP Status Codes — Your Diagnostic Guide</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Code</th><th>Meaning</th><th>Your Action</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>200 OK</strong></td><td>Success</td><td>Process response normally</td></tr>
+          <tr><td><strong>201 Created</strong></td><td>Resource created</td><td>Save returned ID</td></tr>
+          <tr><td><strong>400 Bad Request</strong></td><td>Your request is malformed</td><td>Check request body/params</td></tr>
+          <tr><td><strong>401 Unauthorized</strong></td><td>Auth failed</td><td>Check API key / refresh token</td></tr>
+          <tr><td><strong>403 Forbidden</strong></td><td>Valid auth, no permission</td><td>Check scopes/permissions</td></tr>
+          <tr><td><strong>404 Not Found</strong></td><td>Endpoint or resource missing</td><td>Check URL / resource ID</td></tr>
+          <tr><td><strong>429 Too Many Requests</strong></td><td>Rate limited</td><td>Implement exponential backoff</td></tr>
+          <tr><td><strong>500 Server Error</strong></td><td>API provider issue</td><td>Retry with backoff, alert if persists</td></tr>
+          <tr><td><strong>503 Service Unavailable</strong></td><td>API is down</td><td>Check status page, use cached data</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ══════════ SECTION 7 ══════════ -->
+<section id="s7">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-num">07</div>
+      <h2 class="section-title">USE CASES &<br><span>REAL EXAMPLES</span></h2>
+    </div>
+
+    <div class="usecase">
+      <div class="usecase-header"><span class="icon">🛒</span> E-Commerce: Price Sync Automation</div>
+      <div class="usecase-body">
+        <h4>Problem</h4>
+        <p>Prices on Amazon, Shopify, and your supplier change daily. Manual updates take 3 hours and cause errors.</p>
+        <h4>API Solution</h4>
+        <p>Connect to supplier's product API → fetch updated prices daily at 6AM → push to Amazon SP-API and Shopify Admin API automatically. Zero manual work. Always in sync.</p>
+        <h4>APIs Involved</h4>
+        <p>Supplier REST API → Amazon SP-API (Listings) → Shopify Admin API → Slack webhook for price change alerts</p>
+      </div>
+    </div>
+
+    <div class="usecase">
+      <div class="usecase-header"><span class="icon">📢</span> Marketing: Cross-Platform Ad Budget Control</div>
+      <div class="usecase-body">
+        <h4>Problem</h4>
+        <p>When ROAS drops below 2.0, you manually pause campaigns — but only during business hours. Budget burns overnight.</p>
+        <h4>API Solution</h4>
+        <p>Scheduled script (every hour) pulls ROAS from Google Ads API and Meta Ads API. If ROAS &lt; 2.0, automatically pauses campaigns via API. Resumes when ROAS recovers. Works 24/7.</p>
+        <h4>APIs Involved</h4>
+        <p>Google Ads API → Meta Marketing API → Email/Slack API for notifications</p>
+      </div>
+    </div>
+
+    <div class="usecase">
+      <div class="usecase-header"><span class="icon">📊</span> Reporting: Unified Marketing Dashboard</div>
+      <div class="usecase-body">
+        <h4>Problem</h4>
+        <p>Data scattered across 8 platforms. Building reports takes 4 hours every Monday morning.</p>
+        <h4>API Solution</h4>
+        <p>Nightly ETL job pulls data from Google Analytics API, Google Ads API, Meta Ads API, Amazon Advertising API, and Shopify API into BigQuery. Power BI connects to BigQuery. Dashboard always shows yesterday's data by 6AM.</p>
+        <h4>APIs Involved</h4>
+        <p>GA4 API + Google Ads API + Meta API + Shopify API → BigQuery API → Power BI / Looker Studio</p>
+      </div>
+    </div>
+
+    <div class="usecase">
+      <div class="usecase-header"><span class="icon">🤖</span> AI Automation: GPT-Powered Product Descriptions</div>
+      <div class="usecase-body">
+        <h4>Problem</h4>
+        <p>500 new products per week. Writing unique SEO descriptions manually takes days.</p>
+        <h4>API Solution</h4>
+        <p>Product data enters via spreadsheet → Python script calls OpenAI API with product specs → generates SEO-optimized description → pushes directly to Shopify via Admin API. 500 products processed in 20 minutes.</p>
+        <h4>APIs Involved</h4>
+        <p>Google Sheets API → OpenAI API (GPT-4) → Shopify Admin API</p>
+      </div>
+    </div>
+
+    <div class="usecase">
+      <div class="usecase-header"><span class="icon">📦</span> Fulfillment: Order-to-Shipment Automation</div>
+      <div class="usecase-body">
+        <h4>Problem</h4>
+        <p>New orders must be manually forwarded to 3PL and tracking numbers pasted back into Shopify — 2 hours daily.</p>
+        <h4>API Solution</h4>
+        <p>Shopify webhook fires on new order → sends to 3PL API → 3PL processes and returns tracking number → tracking pushed back to Shopify Order API → customer notification sent via Klaviyo API. Fully automated. Zero manual steps.</p>
+        <h4>APIs Involved</h4>
+        <p>Shopify Webhooks → 3PL/ShipStation API → Shopify Orders API → Klaviyo Email API</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ FREE APIs DIRECTORY ══════════ -->
+<div class="free-api-section" id="s8">
+  <div class="container">
+    <h2>FREE <span>API</span> SERVICES<br>DIRECTORY</h2>
+    <p>These platforms offer free tiers, generous free plans, or open APIs — perfect for getting started without upfront cost.</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Service</th><th>Category</th><th>Free Tier</th><th>Key Features</th><th>Best For</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>OpenWeatherMap</strong></td>
+            <td>Weather</td>
+            <td><span class="badge badge-free">FREE</span> 1K calls/day</td>
+            <td>Current weather, forecasts, historical data, UV index</td>
+            <td>Weather widgets, logistics apps</td>
+          </tr>
+          <tr>
+            <td><strong>NewsAPI</strong></td>
+            <td>News</td>
+            <td><span class="badge badge-free">FREE</span> Dev plan</td>
+            <td>100+ sources, keyword search, 1-month history</td>
+            <td>News aggregators, sentiment tools</td>
+          </tr>
+          <tr>
+            <td><strong>RESTCountries</strong></td>
+            <td>Geography</td>
+            <td><span class="badge badge-free">FREE</span> Unlimited</td>
+            <td>Country data, flags, currencies, languages, borders</td>
+            <td>Address forms, localization</td>
+          </tr>
+          <tr>
+            <td><strong>CoinGecko</strong></td>
+            <td>Crypto</td>
+            <td><span class="badge badge-free">FREE</span> 30 calls/min</td>
+            <td>10,000+ coins, live prices, market caps, charts</td>
+            <td>Crypto dashboards, portfolio tools</td>
+          </tr>
+          <tr>
+            <td><strong>ExchangeRate-API</strong></td>
+            <td>Currency</td>
+            <td><span class="badge badge-free">FREE</span> 1,500 calls/mo</td>
+            <td>170+ currencies, daily updates</td>
+            <td>E-commerce currency conversion</td>
+          </tr>
+          <tr>
+            <td><strong>NASA Open APIs</strong></td>
+            <td>Space/Science</td>
+            <td><span class="badge badge-free">FREE</span> 1K calls/hr</td>
+            <td>APOD, Mars rover photos, asteroids, earth imagery</td>
+            <td>Educational apps, visualizations</td>
+          </tr>
+          <tr>
+            <td><strong>OpenAI API</strong></td>
+            <td>AI/LLM</td>
+            <td><span class="badge badge-freemium">FREEMIUM</span> $5 credit</td>
+            <td>GPT-4o, embeddings, DALL-E, Whisper, vision</td>
+            <td>AI apps, content generation</td>
+          </tr>
+          <tr>
+            <td><strong>Google Maps Platform</strong></td>
+            <td>Maps/Geo</td>
+            <td><span class="badge badge-freemium">FREEMIUM</span> $200/mo credit</td>
+            <td>Maps, Places, Geocoding, Directions, Distance Matrix</td>
+            <td>Location apps, store finders</td>
+          </tr>
+          <tr>
+            <td><strong>Twilio</strong></td>
+            <td>Communications</td>
+            <td><span class="badge badge-freemium">FREEMIUM</span> Trial credits</td>
+            <td>SMS, WhatsApp, Voice, Email, Verify</td>
+            <td>OTP, notifications, chatbots</td>
+          </tr>
+          <tr>
+            <td><strong>Stripe</strong></td>
+            <td>Payments</td>
+            <td><span class="badge badge-freemium">FREEMIUM</span> No monthly fee</td>
+            <td>Payments, subscriptions, invoicing, payouts, Connect</td>
+            <td>E-commerce, SaaS billing</td>
+          </tr>
+          <tr>
+            <td><strong>SendGrid</strong></td>
+            <td>Email</td>
+            <td><span class="badge badge-free">FREE</span> 100 emails/day</td>
+            <td>Transactional email, templates, analytics</td>
+            <td>Order confirmations, newsletters</td>
+          </tr>
+          <tr>
+            <td><strong>Airtable API</strong></td>
+            <td>Database</td>
+            <td><span class="badge badge-free">FREE</span> 1,200 records</td>
+            <td>CRUD operations on flexible spreadsheet-database</td>
+            <td>No-code backends, CRMs</td>
+          </tr>
+          <tr>
+            <td><strong>Unsplash API</strong></td>
+            <td>Images</td>
+            <td><span class="badge badge-free">FREE</span> 50 calls/hr</td>
+            <td>2M+ free-use photos, search, collections</td>
+            <td>Image search, content platforms</td>
+          </tr>
+          <tr>
+            <td><strong>HuggingFace Inference</strong></td>
+            <td>AI/ML</td>
+            <td><span class="badge badge-freemium">FREEMIUM</span> Rate limited</td>
+            <td>1000s of open-source models: NLP, vision, audio</td>
+            <td>ML prototyping, open-source AI</td>
+          </tr>
+          <tr>
+            <td><strong>Alpha Vantage</strong></td>
+            <td>Finance</td>
+            <td><span class="badge badge-free">FREE</span> 25 calls/day</td>
+            <td>Stocks, forex, crypto, fundamentals, technical indicators</td>
+            <td>Finance dashboards, algo trading</td>
+          </tr>
+          <tr>
+            <td><strong>JSONPlaceholder</strong></td>
+            <td>Testing</td>
+            <td><span class="badge badge-free">FREE</span> Unlimited</td>
+            <td>Fake REST API for testing. Posts, users, todos, comments</td>
+            <td>API development, prototyping</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ SECTION 9 — Platform Integrations ══════════ -->
+<section id="s9">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-num">09</div>
+      <h2 class="section-title">PLATFORM<br><span>INTEGRATIONS</span></h2>
+    </div>
+
+    <p>Deep-dive integration guides for the most critical marketing and commerce platforms. Each includes what's possible, how to get credentials, and what you can automate.</p>
+
+    <div class="platform-grid">
+
+      <div class="platform-card">
+        <div class="platform-header">
+          <div class="platform-logo">🛒</div>
+          <div>
+            <div class="platform-name">Amazon SP-API</div>
+            <div class="platform-type">Seller Central · Marketplace</div>
+          </div>
+        </div>
+        <div class="platform-body">
+          <p style="margin-bottom:16px;font-size:13px;color:rgba(10,10,15,0.6)"><strong>Access:</strong> developer.amazonservices.com → Register as developer → Create app in Seller Central → Get Client ID + Secret + Refresh Token</p>
+          <ul>
+            <li>Sync product listings, prices, and inventory automatically across marketplaces</li>
+            <li>Pull order data and push shipment tracking in real-time</li>
+            <li>Automate FBA inbound shipment creation and management</li>
+            <li>Monitor search ranking and Buy Box percentage via Reports API</li>
+            <li>Pull financial settlements and reconcile with accounting systems</li>
+            <li>Auto-respond to buyer messages using Message API</li>
+          </ul>
+          <pre style="margin-top:16px;font-size:11px;padding:14px"><span class="cmt"># Get orders from last 24h</span>
+<span class="fn">GET</span> /orders/v0/orders?
+  MarketplaceIds=ATVPDKIKX0DER&
+  CreatedAfter=2025-01-01T00:00:00Z
+<span class="lang-tag">SP-API</span></pre>
+        </div>
+      </div>
+
+      <div class="platform-card">
+        <div class="platform-header">
+          <div class="platform-logo">📊</div>
+          <div>
+            <div class="platform-name">Google Ads API</div>
+            <div class="platform-type">Advertising · PPC</div>
+          </div>
+        </div>
+        <div class="platform-body">
+          <p style="margin-bottom:16px;font-size:13px;color:rgba(10,10,15,0.6)"><strong>Access:</strong> developers.google.com/google-ads → Apply for API access (MCC required) → OAuth2 credentials from Google Cloud Console</p>
+          <ul>
+            <li>Automate bid adjustments based on time of day, device, or ROAS targets</li>
+            <li>Bulk-create and manage campaigns, ad groups, and keywords</li>
+            <li>Pause underperforming ads automatically when CPA exceeds threshold</li>
+            <li>Pull performance reports: impressions, clicks, conversions, spend</li>
+            <li>Upload offline conversion data to close the attribution loop</li>
+            <li>Manage customer match audiences and remarketing lists</li>
+          </ul>
+          <pre style="margin-top:16px;font-size:11px;padding:14px"><span class="cmt"># GAQL: Pull campaign performance</span>
+<span class="kw">SELECT</span> campaign.name, metrics.cost_micros,
+  metrics.conversions, metrics.roas
+<span class="kw">FROM</span> campaign
+<span class="kw">WHERE</span> segments.date <span class="kw">DURING</span> LAST_7_DAYS
+<span class="lang-tag">GAQL</span></pre>
+        </div>
+      </div>
+
+      <div class="platform-card">
+        <div class="platform-header">
+          <div class="platform-logo">🛍️</div>
+          <div>
+            <div class="platform-name">Google Merchant Center</div>
+            <div class="platform-type">Shopping · Product Feeds</div>
+          </div>
+        </div>
+        <div class="platform-body">
+          <p style="margin-bottom:16px;font-size:13px;color:rgba(10,10,15,0.6)"><strong>Access:</strong> Google Cloud Console → Enable Content API for Shopping → OAuth2 or Service Account credentials</p>
+          <ul>
+            <li>Upload and update product feeds programmatically (no more manual uploads)</li>
+            <li>Monitor product disapprovals and fix issues automatically</li>
+            <li>Manage promotions and sale prices across all products</li>
+            <li>Sync inventory levels to prevent showing out-of-stock products</li>
+            <li>Pull product performance data and diagnostic reports</li>
+            <li>Manage multiple merchant accounts via Merchant Center API</li>
+          </ul>
+          <pre style="margin-top:16px;font-size:11px;padding:14px"><span class="cmt"># Update product price via Content API</span>
+<span class="fn">PATCH</span> /content/v2.1/{merchantId}/products/{productId}
+{
+  <span class="str">"price"</span>: { <span class="str">"value"</span>: <span class="str">"29.99"</span>, <span class="str">"currency"</span>: <span class="str">"USD"</span> },
+  <span class="str">"availability"</span>: <span class="str">"in stock"</span>
+}
+<span class="lang-tag">GMC API</span></pre>
+        </div>
+      </div>
+
+      <div class="platform-card">
+        <div class="platform-header">
+          <div class="platform-logo">📘</div>
+          <div>
+            <div class="platform-name">Meta Marketing API</div>
+            <div class="platform-type">Facebook · Instagram Ads</div>
+          </div>
+        </div>
+        <div class="platform-body">
+          <p style="margin-bottom:16px;font-size:13px;color:rgba(10,10,15,0.6)"><strong>Access:</strong> developers.facebook.com → Create App → Add Marketing API product → Generate long-lived access token</p>
+          <ul>
+            <li>Create and launch ad campaigns with creative, targeting, and budget via API</li>
+            <li>Auto-scale budgets on winning ad sets based on ROAS rules</li>
+            <li>Pull creative performance data to identify winning ad images/copy</li>
+            <li>Sync custom audiences from CRM data automatically</li>
+            <li>Monitor frequency and auto-refresh creatives to combat ad fatigue</li>
+            <li>Manage Instagram shopping catalog via Catalog API</li>
+          </ul>
+          <pre style="margin-top:16px;font-size:11px;padding:14px"><span class="cmt"># Get Ad Insights</span>
+<span class="fn">GET</span> /{ad_id}/insights?
+  fields=spend,impressions,reach,roas&
+  date_preset=last_7d&
+  access_token={token}
+<span class="lang-tag">META API</span></pre>
+        </div>
+      </div>
+
+      <div class="platform-card">
+        <div class="platform-header">
+          <div class="platform-logo">🏪</div>
+          <div>
+            <div class="platform-name">Shopify Admin API</div>
+            <div class="platform-type">E-Commerce · Store Management</div>
+          </div>
+        </div>
+        <div class="platform-body">
+          <p style="margin-bottom:16px;font-size:13px;color:rgba(10,10,15,0.6)"><strong>Access:</strong> Shopify Admin → Apps → Develop apps → Create private app → Get API key + Secret + Access token</p>
+          <ul>
+            <li>CRUD operations on products, variants, inventory, collections</li>
+            <li>Pull and fulfill orders, create shipments, update tracking</li>
+            <li>Manage customer data: tags, notes, addresses, metafields</li>
+            <li>Create and manage discounts, gift cards, price rules</li>
+            <li>Listen to webhooks: order.created, payment.success, etc.</li>
+            <li>Query everything via GraphQL for maximum efficiency</li>
+          </ul>
+          <pre style="margin-top:16px;font-size:11px;padding:14px"><span class="cmt"># GraphQL: Update inventory</span>
+mutation inventoryAdjustQuantity {
+  inventoryAdjustQuantity(input: {
+    inventoryLevelId: <span class="str">"gid://shopify/..."</span>,
+    availableDelta: -<span class="num">5</span>
+  }) { inventoryLevel { available } }
+}
+<span class="lang-tag">SHOPIFY</span></pre>
+        </div>
+      </div>
+
+      <div class="platform-card">
+        <div class="platform-header">
+          <div class="platform-logo">📧</div>
+          <div>
+            <div class="platform-name">Klaviyo API</div>
+            <div class="platform-type">Email · SMS Marketing</div>
+          </div>
+        </div>
+        <div class="platform-body">
+          <p style="margin-bottom:16px;font-size:13px;color:rgba(10,10,15,0.6)"><strong>Access:</strong> Klaviyo Account → Settings → API Keys → Create Private API Key with needed scopes</p>
+          <ul>
+            <li>Add/update profiles with custom properties from any data source</li>
+            <li>Trigger flows programmatically for post-purchase, win-back campaigns</li>
+            <li>Subscribe/unsubscribe profiles from lists via API</li>
+            <li>Pull campaign and flow analytics for unified reporting</li>
+            <li>Sync custom events (product viewed, search performed) for segmentation</li>
+            <li>Manage catalog for personalized product recommendation emails</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="platform-card">
+        <div class="platform-header">
+          <div class="platform-logo">📈</div>
+          <div>
+            <div class="platform-name">GA4 (Analytics) API</div>
+            <div class="platform-type">Analytics · Measurement</div>
+          </div>
+        </div>
+        <div class="platform-body">
+          <p style="margin-bottom:16px;font-size:13px;color:rgba(10,10,15,0.6)"><strong>Access:</strong> Google Cloud Console → Enable GA Data API → Service Account → Grant GA4 property access</p>
+          <ul>
+            <li>Pull custom reports: sessions, conversions, revenue by channel</li>
+            <li>Build automated weekly performance email digests</li>
+            <li>Pull real-time data for live dashboards</li>
+            <li>Send custom events via Measurement Protocol (server-side)</li>
+            <li>Export raw BigQuery data for advanced analysis</li>
+            <li>Audience export for ad retargeting activation</li>
+          </ul>
+          <pre style="margin-top:16px;font-size:11px;padding:14px"><span class="cmt"># Pull sessions by channel</span>
+{
+  <span class="str">"dimensions"</span>: [{<span class="str">"name"</span>: <span class="str">"sessionDefaultChannelGroup"</span>}],
+  <span class="str">"metrics"</span>: [{<span class="str">"name"</span>: <span class="str">"sessions"</span>}, {<span class="str">"name"</span>: <span class="str">"conversions"</span>}],
+  <span class="str">"dateRanges"</span>: [{<span class="str">"startDate"</span>: <span class="str">"30daysAgo"</span>, <span class="str">"endDate"</span>: <span class="str">"today"</span>}]
+}
+<span class="lang-tag">GA4 API</span></pre>
+        </div>
+      </div>
+
+      <div class="platform-card">
+        <div class="platform-header">
+          <div class="platform-logo">🐦</div>
+          <div>
+            <div class="platform-name">X (Twitter) API v2</div>
+            <div class="platform-type">Social · Content</div>
+          </div>
+        </div>
+        <div class="platform-body">
+          <p style="margin-bottom:16px;font-size:13px;color:rgba(10,10,15,0.6)"><strong>Access:</strong> developer.x.com → Apply for access → Create project/app → Bearer Token + OAuth 2.0</p>
+          <ul>
+            <li>Schedule and publish tweets programmatically</li>
+            <li>Monitor brand mentions and keywords in real-time via streaming</li>
+            <li>Pull engagement metrics for content performance analysis</li>
+            <li>Analyze competitor audience and follower growth</li>
+            <li>Auto-reply or DM based on keyword triggers</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ══════════ SECTION 10 — Browser Integration ══════════ -->
+<section id="s10">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-num">10</div>
+      <h2 class="section-title">BROWSER & WEBSITE<br><span>INTEGRATION</span></h2>
+    </div>
+
+    <div class="callout gold">
+      <div class="callout-label">⚠️ Critical Security Rule</div>
+      <strong>Never expose API keys in browser-side JavaScript.</strong> Anyone can view your source code, open DevTools, and steal your key. For any sensitive API call from a browser, route it through your backend server first. The browser calls YOUR server → your server calls the API.
+    </div>
+
+    <h3 style="font-family:'DM Serif Display',serif;font-size:24px;margin:28px 0 16px">Pattern 1: Client-Side (Safe for Public APIs)</h3>
+    <pre><span class="cmt">// Only use this pattern for APIs with key restrictions</span>
+<span class="cmt">// (domain restrictions, rate limits per key, no sensitive data)</span>
+<span class="kw">const</span> <span class="fn">fetchWeather</span> = <span class="kw">async</span> (city) => {
+  <span class="kw">const</span> url = <span class="fn">`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=YOUR_KEY`</span>;
+  <span class="kw">const</span> res = <span class="kw">await</span> <span class="fn">fetch</span>(url);
+  <span class="kw">const</span> data = <span class="kw">await</span> res.<span class="fn">json</span>();
+  document.<span class="fn">getElementById</span>(<span class="str">'weather'</span>).textContent = 
+    <span class="fn">`${data.name}: ${data.main.temp}°C`</span>;
+};
+<span class="lang-tag">JS</span></pre>
+
+    <h3 style="font-family:'DM Serif Display',serif;font-size:24px;margin:28px 0 16px">Pattern 2: Backend Proxy (Recommended for Sensitive APIs)</h3>
+    <pre><span class="cmt">// BROWSER: Calls YOUR server (no API key exposed)</span>
+<span class="kw">const</span> res = <span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">'/api/products'</span>, {
+  method: <span class="str">'GET'</span>,
+  headers: { <span class="str">'Content-Type'</span>: <span class="str">'application/json'</span> }
+});
+
+<span class="cmt">// SERVER (Node.js/Express): Has API key, calls external API</span>
+app.<span class="fn">get</span>(<span class="str">'/api/products'</span>, <span class="kw">async</span> (req, res) => {
+  <span class="kw">const</span> response = <span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">'https://external-api.com/products'</span>, {
+    headers: { <span class="str">'Authorization'</span>: <span class="fn">`Bearer ${process.env.API_KEY}`</span> }
+  });
+  <span class="kw">const</span> data = <span class="kw">await</span> response.<span class="fn">json</span>();
+  res.<span class="fn">json</span>(data); <span class="cmt">// Return to browser</span>
+});
+<span class="lang-tag">JS</span></pre>
+
+    <h3 style="font-family:'DM Serif Display',serif;font-size:24px;margin:28px 0 16px">Pattern 3: Webhook Receiver (Server-Side Events)</h3>
+    <pre><span class="cmt">// Express webhook endpoint — receives events from Stripe/Shopify/etc.</span>
+app.<span class="fn">post</span>(<span class="str">'/webhooks/stripe'</span>, express.<span class="fn">raw</span>({type: <span class="str">'application/json'</span>}), (req, res) => {
+  <span class="cmt">// 1. Verify signature (ALWAYS do this)</span>
+  <span class="kw">const</span> sig = req.headers[<span class="str">'stripe-signature'</span>];
+  <span class="kw">const</span> event = stripe.webhooks.<span class="fn">constructEvent</span>(req.body, sig, process.env.<span class="var">WEBHOOK_SECRET</span>);
+  
+  <span class="cmt">// 2. Handle the event</span>
+  <span class="kw">switch</span> (event.type) {
+    <span class="kw">case</span> <span class="str">'payment_intent.succeeded'</span>:
+      <span class="fn">fulfillOrder</span>(event.data.object);
+      <span class="kw">break</span>;
+    <span class="kw">case</span> <span class="str">'customer.subscription.deleted'</span>:
+      <span class="fn">cancelMembership</span>(event.data.object);
+      <span class="kw">break</span>;
+  }
+  res.<span class="fn">json</span>({received: <span class="kw">true</span>}); <span class="cmt">// Must respond quickly!</span>
+});
+<span class="lang-tag">NODE.JS</span></pre>
+
+    <h3 style="font-family:'DM Serif Display',serif;font-size:24px;margin:28px 0 16px">No-Code / Low-Code Integration Options</h3>
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-icon">⚡</div>
+        <h3>Zapier</h3>
+        <p>Connect 6,000+ apps with zero code. Trigger actions based on events. Great for non-developers. Handles auth for you.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🔧</div>
+        <h3>Make (Integromat)</h3>
+        <p>Visual workflow builder. More powerful than Zapier. Handles complex data transformations and multi-step flows.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🌊</div>
+        <h3>n8n</h3>
+        <p>Open-source, self-hostable automation. Code when needed. Free forever on self-hosted. Developer-friendly.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🤖</div>
+        <h3>Power Automate</h3>
+        <p>Microsoft's workflow tool. Deep Office 365 integration. Pre-built connectors for 400+ services. Enterprise-ready.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ══════════ SECTION 11 — Security ══════════ -->
+<section id="s11">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-num">11</div>
+      <h2 class="section-title">SECURITY &<br><span>BEST PRACTICES</span></h2>
+    </div>
+
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-icon">🚫</div>
+        <h3>Never Commit Keys</h3>
+        <p>Add <code>.env</code> to <code>.gitignore</code> immediately. Use git-secrets or truffleHog to scan for exposed credentials. One leaked key can cost thousands.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🔁</div>
+        <h3>Rotate Keys Regularly</h3>
+        <p>Rotate API keys every 90 days minimum. Build rotation into your operations — it should take &lt;5 minutes with proper tooling.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🎯</div>
+        <h3>Least Privilege</h3>
+        <p>Request only the scopes/permissions your app actually needs. A reporting integration shouldn't have write access.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🔒</div>
+        <h3>Use Secrets Vaults</h3>
+        <p>AWS Secrets Manager, HashiCorp Vault, Doppler, or Vercel/Railway env vars. Never store keys in database or code.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🌐</div>
+        <h3>IP Whitelisting</h3>
+        <p>Restrict API keys to specific IP addresses where possible. Your server's IP only. Prevents key abuse if leaked.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">⏰</div>
+        <h3>Short-lived Tokens</h3>
+        <p>Prefer short-expiry access tokens (1hr) with refresh tokens over permanent API keys. Limits blast radius of theft.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ══════════ SECTION 12 — Automation ══════════ -->
+<section id="s12">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-num">12</div>
+      <h2 class="section-title">AUTOMATION<br><span>WORKFLOWS</span></h2>
+    </div>
+
+    <p>The real power of APIs isn't single calls — it's chaining them into automated workflows that run 24/7 without human intervention. Here's how to architect them.</p>
+
+    <h3 style="font-family:'DM Serif Display',serif;font-size:24px;margin:28px 0 16px">Workflow Architecture Patterns</h3>
+
+    <div class="usecase">
+      <div class="usecase-header"><span class="icon">⏰</span> Pattern 1: Scheduled (Cron Jobs)</div>
+      <div class="usecase-body">
+        <p>Run API workflows on a schedule. Use GitHub Actions, AWS Lambda + EventBridge, or cron on a server. Best for: daily reports, inventory syncs, price updates.</p>
+        <pre style="font-size:12px;padding:16px"><span class="cmt"># GitHub Actions: Daily 6AM report</span>
+on:
+  schedule:
+    - cron: <span class="str">'0 6 * * *'</span>  <span class="cmt"># 6 AM UTC daily</span>
+jobs:
+  generate-report:
+    runs-on: ubuntu-latest
+    steps:
+      - <span class="kw">run</span>: python generate_report.py
+        env:
+          <span class="var">GA4_KEY</span>: ${{ secrets.GA4_KEY }}
+          <span class="var">GOOGLE_ADS_KEY</span>: ${{ secrets.GOOGLE_ADS_KEY }}
+<span class="lang-tag">YAML</span></pre>
+      </div>
+    </div>
+
+    <div class="usecase">
+      <div class="usecase-header"><span class="icon">⚡</span> Pattern 2: Event-Driven (Webhooks)</div>
+      <div class="usecase-body">
+        <p>React to events in real-time. A new order triggers fulfillment. A failed payment triggers a dunning email. Payment received triggers a Slack notification.</p>
+        <pre style="font-size:12px;padding:16px"><span class="cmt"># Shopify → Fulfillment flow</span>
+Shopify <span class="fn">order.paid</span> webhook
+  → Your server receives event
+  → Validates webhook signature
+  → Calls ShipStation API to create order
+  → Receives tracking number
+  → Updates Shopify Order API with tracking
+  → Calls Klaviyo API to send shipping email
+  → Posts to Slack: <span class="str">"Order #1234 shipped!"</span>
+<span class="lang-tag">FLOW</span></pre>
+      </div>
+    </div>
+
+    <div class="usecase">
+      <div class="usecase-header"><span class="icon">🔄</span> Pattern 3: Polling (When Webhooks Aren't Available)</div>
+      <div class="usecase-body">
+        <p>Check for changes every N minutes. Less efficient than webhooks but works when the API doesn't support them. Track a "last checked" timestamp to fetch only new data.</p>
+        <pre style="font-size:12px;padding:16px"><span class="kw">async def</span> <span class="fn">poll_for_new_orders</span>():
+    last_checked = <span class="fn">get_last_run_timestamp</span>()
+    <span class="kw">while</span> <span class="kw">True</span>:
+        orders = api.<span class="fn">get_orders</span>(since=last_checked)
+        <span class="kw">for</span> order <span class="kw">in</span> orders:
+            <span class="fn">process_order</span>(order)
+        last_checked = <span class="fn">datetime.now</span>()
+        <span class="fn">save_timestamp</span>(last_checked)
+        <span class="fn">time.sleep</span>(<span class="num">300</span>)  <span class="cmt"># Poll every 5 minutes</span>
+<span class="lang-tag">PYTHON</span></pre>
+      </div>
+    </div>
+
+    <div class="callout blue">
+      <div class="callout-label">🚀 Pro Tip: API Orchestration Tools</div>
+      For complex multi-API workflows, consider: <strong>Apache Airflow</strong> (data pipelines), <strong>Temporal</strong> (durable execution), <strong>Prefect</strong> (data flow), or <strong>n8n</strong> (visual automation). These handle retries, state, and failures automatically.
+    </div>
+
+    <h3 style="font-family:'DM Serif Display',serif;font-size:24px;margin:40px 0 16px">10 APIs Every Digital Marketer Should Master</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>#</th><th>API</th><th>Why It Matters</th><th>Time Saved/Week</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td><strong>Google Ads API</strong></td><td>Bid automation, reporting, bulk management</td><td>5–10 hrs</td></tr>
+          <tr><td>2</td><td><strong>GA4 Data API</strong></td><td>Custom reports, automated dashboards</td><td>3–5 hrs</td></tr>
+          <tr><td>3</td><td><strong>Meta Marketing API</strong></td><td>Campaign management, audience sync</td><td>4–8 hrs</td></tr>
+          <tr><td>4</td><td><strong>Amazon SP-API</strong></td><td>Inventory, orders, listing management</td><td>6–12 hrs</td></tr>
+          <tr><td>5</td><td><strong>Shopify API</strong></td><td>Order automation, product sync</td><td>4–8 hrs</td></tr>
+          <tr><td>6</td><td><strong>Klaviyo API</strong></td><td>Audience sync, campaign analytics</td><td>2–4 hrs</td></tr>
+          <tr><td>7</td><td><strong>OpenAI API</strong></td><td>Content generation, data analysis</td><td>10–20 hrs</td></tr>
+          <tr><td>8</td><td><strong>Slack API</strong></td><td>Automated alerts and notifications</td><td>1–2 hrs</td></tr>
+          <tr><td>9</td><td><strong>Google Sheets API</strong></td><td>Report delivery, data input layer</td><td>2–4 hrs</td></tr>
+          <tr><td>10</td><td><strong>GMC Content API</strong></td><td>Product feed automation</td><td>3–6 hrs</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div style="background:var(--ink);color:var(--paper);padding:40px;margin-top:60px;text-align:center;">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:4px;color:var(--accent);margin-bottom:12px;">THE BOTTOM LINE</div>
+      <div style="font-family:'DM Serif Display',serif;font-style:italic;font-size:clamp(22px,4vw,36px);line-height:1.3;max-width:700px;margin:0 auto 20px;">
+        "Every hour you spend manually doing something a computer could do via API is an hour stolen from strategy."
+      </div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:rgba(245,242,235,0.4);letter-spacing:2px;">RAM VARADARAJ · AI MARKETING STRATEGIST</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <strong>API Mastery Guide</strong> · Complete Integration Playbook 2025<br>
+  <span style="display:block;margin-top:8px">Built for marketers, operators, and developers who want to automate everything.</span>
+</footer>
+
+</body>
+</html>
